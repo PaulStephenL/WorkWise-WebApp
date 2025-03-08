@@ -1,5 +1,8 @@
 import React, { useState, useEffect ***REMOVED*** from 'react';
-import { Link ***REMOVED*** from 'react-router-dom';
+import { supabase ***REMOVED*** from '../../../lib/supabase';
+import { MapPin ***REMOVED*** from 'lucide-react';
+import { Link, useNavigate ***REMOVED*** from 'react-router-dom';
+import { toast ***REMOVED*** from 'react-hot-toast';
 
 const CompaniesList = () => {
   const [companies, setCompanies] = useState([]);
