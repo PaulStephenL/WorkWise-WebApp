@@ -10,8 +10,72 @@ function CompaniesList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // TODO: Fetch companies from API
+    fetchCompanies();
   ***REMOVED***, []);
+
+  async function fetchCompanies() {
+    try {
+      setLoading(true);
+      const { data, error ***REMOVED*** = await supabase
+        .from('companies')
+        .select('*')
+        .order('name');
+
+      if (error) throw error;
+      setCompanies(data || []);
+    ***REMOVED*** catch (error) {
+      console.error('Error fetching companies:', error);
+      toast.error('Failed to load companies');
+    ***REMOVED*** finally {
+      setLoading(false);
+    ***REMOVED***
+  ***REMOVED***
+
+  async function handleDelete(id, companyName) {
+    if (!confirm(`Are you sure you want to delete ${companyName***REMOVED***?`)) return;
+    
+    try {
+      setLoading(true);
+      
+      // First check if the company has any associated jobs
+      const { data: jobs, error: jobsError ***REMOVED*** = await supabase
+        .from('jobs')
+        .select('id')
+        .eq('company_id', id);
+        
+      if (jobsError) throw jobsError;
+      
+      if (jobs && jobs.length > 0) {
+        toast.error(`Cannot delete company that has ${jobs.length***REMOVED*** job listings. Remove the job listings first.`);
+        return;
+      ***REMOVED***
+      
+      // Now delete the company
+      const { error ***REMOVED*** = await supabase
+        .from('companies')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+      
+      toast.success('Company deleted successfully');
+      // Refresh the company list
+      fetchCompanies();
+    ***REMOVED*** catch (error) {
+      console.error('Error deleting company:', error);
+      toast.error(error.message || 'Error deleting company');
+    ***REMOVED*** finally {
+      setLoading(false);
+    ***REMOVED***
+  ***REMOVED***
+
+  if (loading && companies.length === 0) {
+    return (
+      <div className="flex justify-center items-center min-h-[200px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#ffdde2]"></div>
+      </div>
+    );
+  ***REMOVED***
 
   return (
     <div>
