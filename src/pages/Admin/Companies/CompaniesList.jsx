@@ -4,8 +4,10 @@ import { MapPin ***REMOVED*** from 'lucide-react';
 import { Link, useNavigate ***REMOVED*** from 'react-router-dom';
 import { toast ***REMOVED*** from 'react-hot-toast';
 
-const CompaniesList = () => {
+function CompaniesList() {
   const [companies, setCompanies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // TODO: Fetch companies from API
