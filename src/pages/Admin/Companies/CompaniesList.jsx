@@ -83,29 +83,50 @@ function CompaniesList() {
         <h2 className="text-2xl font-bold">Companies</h2>
         <Link to="/admin/companies/new" className="bg-[#101d42] text-white px-4 py-2 rounded hover:bg-opacity-90">
           Add New Company
-      </Link>
-      <table className="min-w-full bg-white">
-        <thead>
-          <tr>
-            <th className="px-6 py-3">Name</th>
-            <th className="px-6 py-3">Location</th>
-            <th className="px-6 py-3">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {companies.map(company => (
-            <tr key={company.id***REMOVED***>
-              <td className="px-6 py-4">{company.name***REMOVED***</td>
-              <td className="px-6 py-4">{company.location***REMOVED***</td>
-              <td className="px-6 py-4">
-                <Link to={`/admin/companies/${company.id***REMOVED***`***REMOVED***>Edit</Link>
-              </td>
-            </tr>
-          ))***REMOVED***
-        </tbody>
-      </table>
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {companies.length === 0 ? (
+          <p className="text-gray-500 col-span-3 text-center py-8">No companies found. Add your first company!</p>
+        ) : (
+          companies.map((company) => (
+            <div key={company.id***REMOVED*** className="bg-white rounded-lg shadow p-6">
+              <div className="flex items-center mb-4">
+                {company.logo_url && (
+                  <img
+                    src={company.logo_url***REMOVED***
+                    alt={company.name***REMOVED***
+                    className="w-12 h-12 rounded object-cover mr-4"
+                  />
+                )***REMOVED***
+                <h3 className="text-lg font-semibold">{company.name***REMOVED***</h3>
+              </div>
+              <p className="text-gray-600 text-sm mb-4 line-clamp-3">{company.description***REMOVED***</p>
+              <div className="flex items-center text-sm text-gray-500 mb-4">
+                <MapPin className="h-4 w-4 mr-1" />
+                {company.location***REMOVED***
+              </div>
+              <div className="mt-4 flex justify-end space-x-2">
+                <button 
+                  onClick={() => navigate(`/admin/companies/${company.id***REMOVED***`)***REMOVED***
+                  className="text-indigo-600 hover:text-indigo-900"
+                >
+                  Edit
+                </button>
+                <button 
+                  onClick={() => handleDelete(company.id, company.name)***REMOVED***
+                  className="text-red-600 hover:text-red-900"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))
+        )***REMOVED***
+      </div>
     </div>
   );
-***REMOVED***;
+***REMOVED***
 
-export default CompaniesList; 
+export default CompaniesList;
