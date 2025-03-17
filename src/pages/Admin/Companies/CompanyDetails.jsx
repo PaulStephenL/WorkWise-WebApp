@@ -1,5 +1,7 @@
 import React, { useState, useEffect ***REMOVED*** from 'react';
-import { useParams ***REMOVED*** from 'react-router-dom';
+import { useParams, useNavigate ***REMOVED*** from 'react-router-dom';
+import { supabase ***REMOVED*** from '../../../lib/supabase';
+import { toast ***REMOVED*** from 'react-hot-toast';
 
 const CompanyDetails = () => {
   const { id ***REMOVED*** = useParams();
