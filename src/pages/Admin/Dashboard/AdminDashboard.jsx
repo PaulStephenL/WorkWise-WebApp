@@ -207,7 +207,9 @@ function AdminDashboard() {
             <Route index element={<AdminOverview stats={stats***REMOVED*** />***REMOVED*** />
             <Route path="jobs" element={<JobsList />***REMOVED*** />
             <Route path="jobs/:id" element={<JobDetails />***REMOVED*** />
-            <Route path="companies" element={<AdminCompanies />***REMOVED*** />
+            <Route path="companies" element={<CompaniesList />***REMOVED*** />
+            <Route path="companies/new" element={<CompanyDetails />***REMOVED*** />
+            <Route path="companies/:id" element={<CompanyDetails />***REMOVED*** />
             <Route path="applications" element={<ApplicationsList />***REMOVED*** />
             <Route path="applications/:id" element={<ApplicationDetails />***REMOVED*** />
           </Routes>
@@ -228,70 +230,70 @@ function AdminOverview({ stats ***REMOVED***) {
   );
 ***REMOVED***
 
-function AdminCompanies() {
-  const [companies, setCompanies] = useState([]);
-  const [loading, setLoading] = useState(true);
+// function AdminCompanies() {
+//   const [companies, setCompanies] = useState([]);
+//   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchCompanies();
-  ***REMOVED***, []);
+//   useEffect(() => {
+//     fetchCompanies();
+//   ***REMOVED***, []);
 
-  async function fetchCompanies() {
-    try {
-      const { data, error ***REMOVED*** = await supabase
-        .from('companies')
-        .select('*')
-        .order('name');
+//   async function fetchCompanies() {
+//     try {
+//       const { data, error ***REMOVED*** = await supabase
+//         .from('companies')
+//         .select('*')
+//         .order('name');
 
-      if (error) throw error;
-      setCompanies(data || []);
-    ***REMOVED*** catch (error) {
-      console.error('Error fetching companies:', error);
-    ***REMOVED*** finally {
-      setLoading(false);
-    ***REMOVED***
-  ***REMOVED***
+//       if (error) throw error;
+//       setCompanies(data || []);
+//     ***REMOVED*** catch (error) {
+//       console.error('Error fetching companies:', error);
+//     ***REMOVED*** finally {
+//       setLoading(false);
+//     ***REMOVED***
+//   ***REMOVED***
 
-  if (loading) {
-    return <div>Loading...</div>;
-  ***REMOVED***
+//   if (loading) {
+//     return <div>Loading...</div>;
+//   ***REMOVED***
 
-  return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Companies</h2>
-        <button className="bg-[#101d42] text-white px-4 py-2 rounded hover:bg-opacity-90">
-          Add New Company
-        </button>
-      </div>
+//   return (
+//     <div>
+//       <div className="flex justify-between items-center mb-6">
+//         <h2 className="text-2xl font-bold">Companies</h2>
+//         <button className="bg-[#101d42] text-white px-4 py-2 rounded hover:bg-opacity-90">
+//           Add New Company
+//         </button>
+//       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {companies.map((company) => (
-          <div key={company.id***REMOVED*** className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center mb-4">
-              {company.logo_url && (
-                <img
-                  src={company.logo_url***REMOVED***
-                  alt={company.name***REMOVED***
-                  className="w-12 h-12 rounded object-cover mr-4"
-                />
-              )***REMOVED***
-              <h3 className="text-lg font-semibold">{company.name***REMOVED***</h3>
-            </div>
-            <p className="text-gray-600 text-sm mb-4">{company.description***REMOVED***</p>
-            <div className="flex items-center text-sm text-gray-500">
-              <MapPin className="h-4 w-4 mr-1" />
-              {company.location***REMOVED***
-            </div>
-            <div className="mt-4 flex justify-end space-x-2">
-              <button className="text-indigo-600 hover:text-indigo-900">Edit</button>
-              <button className="text-red-600 hover:text-red-900">Delete</button>
-            </div>
-          </div>
-        ))***REMOVED***
-      </div>
-    </div>
-  );
-***REMOVED***
+//       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+//         {companies.map((company) => (
+//           <div key={company.id***REMOVED*** className="bg-white rounded-lg shadow p-6">
+//             <div className="flex items-center mb-4">
+//               {company.logo_url && (
+//                 <img
+//                   src={company.logo_url***REMOVED***
+//                   alt={company.name***REMOVED***
+//                   className="w-12 h-12 rounded object-cover mr-4"
+//                 />
+//               )***REMOVED***
+//               <h3 className="text-lg font-semibold">{company.name***REMOVED***</h3>
+//             </div>
+//             <p className="text-gray-600 text-sm mb-4">{company.description***REMOVED***</p>
+//             <div className="flex items-center text-sm text-gray-500">
+//               <MapPin className="h-4 w-4 mr-1" />
+//               {company.location***REMOVED***
+//             </div>
+//             <div className="mt-4 flex justify-end space-x-2">
+//               <button className="text-indigo-600 hover:text-indigo-900">Edit</button>
+//               <button className="text-red-600 hover:text-red-900">Delete</button>
+//             </div>
+//           </div>
+//         ))***REMOVED***
+//       </div>
+//     </div>
+//   );
+// ***REMOVED***
 
 export default AdminDashboard;
