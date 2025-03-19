@@ -1,28 +1,65 @@
 import React, { useEffect, useState ***REMOVED*** from 'react';
-import { Link ***REMOVED*** from 'react-router-dom';
+import { Link, useNavigate ***REMOVED*** from 'react-router-dom';
 import { Briefcase ***REMOVED*** from 'lucide-react';
 import { supabase ***REMOVED*** from '../lib/supabase';
 
 function Navbar() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
-      const { data: { user ***REMOVED*** ***REMOVED*** = await supabase.auth.getUser();
-      setUser(user);
+      try {
+        const { data, error ***REMOVED*** = await supabase.auth.getUser();
+        
+        if (error) {
+          console.error('Error getting auth user:', error);
+          setUser(null);
+        ***REMOVED*** else {
+          setUser(data.user);
+        ***REMOVED***
+      ***REMOVED*** catch (error) {
+        console.error('Unexpected error in fetchUser:', error);
+        setUser(null);
+      ***REMOVED*** finally {
+        setLoading(false);
+      ***REMOVED***
     ***REMOVED***;
 
+    // Set up auth state listener
+    const { data: authListener ***REMOVED*** = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (event === 'SIGNED_IN' && session) {
+          setUser(session.user);
+        ***REMOVED*** else if (event === 'SIGNED_OUT') {
+          setUser(null);
+        ***REMOVED***
+      ***REMOVED***
+    );
+
     fetchUser();
+
+    // Cleanup listener on unmount
+    return () => {
+      if (authListener && authListener.subscription) {
+        authListener.subscription.unsubscribe();
+      ***REMOVED***
+    ***REMOVED***;
   ***REMOVED***, []);
 
   const handleLogout = async () => {
     try {
+      setLoading(true);
       const { error ***REMOVED*** = await supabase.auth.signOut();
       if (error) throw error;
       setUser(null);
+      navigate('/');
       console.log('User logged out successfully');
     ***REMOVED*** catch (error) {
       console.error('Error logging out:', error);
+    ***REMOVED*** finally {
+      setLoading(false);
     ***REMOVED***
   ***REMOVED***;
 
