@@ -1,6 +1,7 @@
 import React, { useState, useEffect ***REMOVED*** from 'react';
 import { useParams, Link, useNavigate ***REMOVED*** from 'react-router-dom';
 import { supabase ***REMOVED*** from '../../lib/supabase';
+import { toast ***REMOVED*** from 'react-hot-toast';
 
 export default function JobDetails() {
   const { id ***REMOVED*** = useParams();
