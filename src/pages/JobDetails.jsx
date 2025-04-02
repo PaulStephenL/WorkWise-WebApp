@@ -10,13 +10,51 @@ function JobDetails() {
   const [loading, setLoading] = useState(true);
   const [applying, setApplying] = useState(false);
   const [error, setError] = useState('');
-  const [user] = useState(supabase.auth.getUser());
+  const [user, setUser] = useState(null);
+  const [userRole, setUserRole] = useState(null);
   const [hasApplied, setHasApplied] = useState(false);
 
   useEffect(() => {
     fetchJob();
-    checkApplication();
+    fetchUserAndRole();
   ***REMOVED***, [id]);
+
+  useEffect(() => {
+    // Check application only after we have user info
+    if (user && id) {
+      checkApplication();
+    ***REMOVED***
+  ***REMOVED***, [user, id]);
+
+  async function fetchUserAndRole() {
+    try {
+      const { data: { user: currentUser ***REMOVED***, error: userError ***REMOVED*** = await supabase.auth.getUser();
+      
+      if (userError) {
+        console.error('Error getting current user:', userError);
+        return;
+      ***REMOVED***
+      
+      if (currentUser) {
+        setUser(currentUser);
+        
+        // Fetch user role from profiles
+        const { data: profileData, error: profileError ***REMOVED*** = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', currentUser.id)
+          .single();
+        
+        if (profileError) {
+          console.error('Error fetching user role:', profileError);
+        ***REMOVED*** else if (profileData) {
+          setUserRole(profileData.role || 'user');
+        ***REMOVED***
+      ***REMOVED***
+    ***REMOVED*** catch (error) {
+      console.error('Error fetching user and role:', error);
+    ***REMOVED***
+  ***REMOVED***
 
   async function fetchJob() {
     try {
@@ -42,14 +80,13 @@ function JobDetails() {
 
   async function checkApplication() {
     try {
-      const user = await supabase.auth.getUser();
-      if (!user.data.user || !id) return;
+      if (!user || !id) return;
 
       const { data, error ***REMOVED*** = await supabase
         .from('applications')
         .select('id')
         .eq('job_id', id)
-        .eq('user_id', user.data.user.id)
+        .eq('user_id', user.id)
         .single();
 
       if (error && error.code !== 'PGRST116') throw error;
@@ -61,9 +98,14 @@ function JobDetails() {
 
   async function handleApply() {
     try {
-      const user = await supabase.auth.getUser();
-      if (!user.data.user) {
+      if (!user) {
         navigate('/login');
+        return;
+      ***REMOVED***
+      
+      // Prevent admin users from applying
+      if (userRole === 'admin') {
+        setError("Admin users cannot apply for jobs");
         return;
       ***REMOVED***
 
@@ -72,7 +114,7 @@ function JobDetails() {
         .from('applications')
         .insert({
           job_id: id,
-          user_id: user.data.user.id,
+          user_id: user.id,
           status: 'pending'
         ***REMOVED***);
 
@@ -152,13 +194,19 @@ function JobDetails() {
           </div>
         )***REMOVED***
 
-        <button
-          onClick={handleApply***REMOVED***
-          disabled={hasApplied || applying***REMOVED***
-          className="w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#101d42] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#101d42] disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {hasApplied ? 'Application Submitted' : applying ? 'Applying...' : 'Apply Now'***REMOVED***
-        </button>
+        {userRole === 'admin' ? (
+          <div className="w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-400 text-center">
+            Admin users cannot apply for jobs
+          </div>
+        ) : (
+          <button
+            onClick={handleApply***REMOVED***
+            disabled={hasApplied || applying***REMOVED***
+            className="w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#101d42] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#101d42] disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {hasApplied ? 'Application Submitted' : applying ? 'Applying...' : 'Apply Now'***REMOVED***
+          </button>
+        )***REMOVED***
       </div>
     </div>
   );
