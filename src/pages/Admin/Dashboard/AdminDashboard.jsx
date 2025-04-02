@@ -2,6 +2,7 @@ import React, { useState, useEffect ***REMOVED*** from 'react';
 import { Routes, Route, Link, useNavigate ***REMOVED*** from 'react-router-dom';
 import { supabase, checkAndVerifyAdminRole ***REMOVED*** from '../../../lib/supabase';
 import { Briefcase, Building2, Users, LayoutDashboard, MapPin ***REMOVED*** from 'lucide-react';
+import JobDetails from '../Jobs/JobDetails';
 
 function AdminDashboard() {
   const navigate = useNavigate();
@@ -199,6 +200,7 @@ function AdminDashboard() {
           <Routes>
             <Route index element={<AdminOverview stats={stats***REMOVED*** />***REMOVED*** />
             <Route path="jobs" element={<AdminJobs />***REMOVED*** />
+            <Route path="jobs/:id" element={<JobDetails />***REMOVED*** />
             <Route path="companies" element={<AdminCompanies />***REMOVED*** />
             <Route path="applications" element={<AdminApplications />***REMOVED*** />
           </Routes>
@@ -254,9 +256,9 @@ function AdminJobs() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Jobs</h2>
-        <button className="bg-[#101d42] text-white px-4 py-2 rounded hover:bg-opacity-90">
+        <Link to="/admin/jobs/new" className="bg-[#101d42] text-white px-4 py-2 rounded hover:bg-opacity-90">
           Add New Job
-        </button>
+        </Link>
       </div>
 
       <div className="overflow-x-auto">
@@ -296,7 +298,7 @@ function AdminJobs() {
                   <div className="text-sm text-gray-500">{job.type***REMOVED***</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <button className="text-indigo-600 hover:text-indigo-900 mr-4">Edit</button>
+                  <Link to={`/admin/jobs/${job.id***REMOVED***`***REMOVED*** className="text-indigo-600 hover:text-indigo-900 mr-4">Edit</Link>
                   <button className="text-red-600 hover:text-red-900">Delete</button>
                 </td>
               </tr>
