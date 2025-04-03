@@ -9,7 +9,7 @@ import SignUp from './pages/SignUp';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import AdminDashboard from './pages/Admin/Dashboard/AdminDashboard';
-import { LandingPage ***REMOVED*** from './pages/LandingPage';
+import { LandingPage ***REMOVED*** from "./pages/Index";
 import { supabase, createUserProfile ***REMOVED*** from './lib/supabase';
 import Dashboard from './pages/User/Dashboard';
 import Profile from './pages/User/Profile';
