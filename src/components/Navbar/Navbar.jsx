@@ -1,13 +1,13 @@
-import React, { useState ***REMOVED*** from 'react';
-import { Link ***REMOVED*** from 'react-router-dom';
-import { Briefcase ***REMOVED*** from 'lucide-react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Briefcase } from 'lucide-react';
 import UserMenu from './UserMenu';
 import AuthButtons from './AuthButtons';
 import NavLinks from './NavLinks';
-import { useAuth ***REMOVED*** from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 
 function Navbar() {
-  const { user, userRole, loading, logout ***REMOVED*** = useAuth();
+  const { user, userRole, loading, logout } = useAuth();
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   // Simple loading view
@@ -24,7 +24,7 @@ function Navbar() {
         </div>
       </nav>
     );
-  ***REMOVED***
+  }
 
   return (
     <nav className="bg-[#101d42] text-white">
@@ -40,19 +40,19 @@ function Navbar() {
           <div className="flex items-center space-x-4">
             {user ? (
               <UserMenu 
-                userRole={userRole***REMOVED*** 
-                showUserMenu={showUserMenu***REMOVED*** 
-                setShowUserMenu={setShowUserMenu***REMOVED*** 
-                handleLogout={logout***REMOVED*** 
+                userRole={userRole} 
+                showUserMenu={showUserMenu} 
+                setShowUserMenu={setShowUserMenu} 
+                handleLogout={logout} 
               />
             ) : (
               <AuthButtons />
-            )***REMOVED***
+            )}
           </div>
         </div>
       </div>
     </nav>
   );
-***REMOVED***
+}
 
 export default Navbar; 

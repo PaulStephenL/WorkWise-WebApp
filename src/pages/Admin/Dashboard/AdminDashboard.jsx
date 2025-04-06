@@ -1,14 +1,14 @@
-import React, { useState, useEffect ***REMOVED*** from 'react';
-import { Routes, Route, Link, useNavigate, useParams ***REMOVED*** from 'react-router-dom';
-import { supabase, checkAndVerifyAdminRole ***REMOVED*** from '../../../lib/supabase';
-import { Briefcase, Building2, Users, LayoutDashboard, MapPin ***REMOVED*** from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
+import { supabase, checkAndVerifyAdminRole } from '../../../lib/supabase';
+import { Briefcase, Building2, Users, LayoutDashboard, MapPin } from 'lucide-react';
 import JobsList from '../Jobs/JobsList';
 import JobDetails from '../Jobs/JobDetails';
 import CompaniesList from '../Companies/CompaniesList';
 import CompanyDetails from '../Companies/CompanyDetails';
 import ApplicationsList from '../Applications/ApplicationsList';
 import ApplicationDetails from '../Applications/ApplicationDetails';
-import { toast ***REMOVED*** from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 function AdminDashboard() {
   const navigate = useNavigate();
@@ -17,23 +17,23 @@ function AdminDashboard() {
     totalJobs: 0,
     totalCompanies: 0,
     totalApplications: 0,
-  ***REMOVED***);
+  });
 
   useEffect(() => {
     checkAdmin();
     fetchStats();
-  ***REMOVED***, []);
+  }, []);
 
   async function checkAdmin() {
     try {
       // Get the current user
-      const { data: { user ***REMOVED***, error: userError ***REMOVED*** = await supabase.auth.getUser();
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
       
       if (userError) {
         console.error('Error getting current user:', userError);
         navigate('/login');
         return;
-      ***REMOVED***
+      }
       
       console.log('AdminDashboard checkAdmin - User:', user?.id);
       
@@ -42,7 +42,7 @@ function AdminDashboard() {
         console.error('No authenticated user found');
         navigate('/login');
         return;
-      ***REMOVED***
+      }
       
       console.log('Checking admin role for user:', user.id);
       
@@ -53,7 +53,7 @@ function AdminDashboard() {
       // If not admin, let's get the current role for debugging
       if (!isAdmin) {
         // Get the role directly one more time for confirmation
-        const { data: profileData, error: profileError ***REMOVED*** = await supabase
+        const { data: profileData, error: profileError } = await supabase
           .from('profiles')
           .select('role')
           .eq('id', user.id)
@@ -61,7 +61,7 @@ function AdminDashboard() {
           
         if (profileError) {
           console.error('Error fetching profile for confirmation:', profileError);
-        ***REMOVED*** else {
+        } else {
           console.log('Profile data confirmation:', profileData);
           console.log('Role from confirmation:', profileData?.role);
           
@@ -69,14 +69,14 @@ function AdminDashboard() {
           if (profileData && profileData.role && profileData.role.toString().trim().toLowerCase() === 'admin') {
             // The role is admin when trimmed but not being detected properly
             console.log('Role is admin when trimmed. Attempting direct fix...');
-            const { error: fixError ***REMOVED*** = await supabase
+            const { error: fixError } = await supabase
               .from('profiles')
-              .update({ role: 'admin' ***REMOVED***)
+              .update({ role: 'admin' })
               .eq('id', user.id);
             
             if (fixError) {
               console.error('Error fixing role:', fixError);
-            ***REMOVED*** else {
+            } else {
               console.log('Successfully fixed role. Trying admin check again...');
               // Try the check one more time
               const isAdminAfterFix = await checkAndVerifyAdminRole(user.id);
@@ -86,41 +86,41 @@ function AdminDashboard() {
                 // Success! Continue loading the dashboard
                 setLoading(false);
                 return;
-              ***REMOVED***
-            ***REMOVED***
-          ***REMOVED***
-        ***REMOVED***
+              }
+            }
+          }
+        }
         
         console.error('User is not an admin, redirecting to home');
         navigate('/');
         return;
-      ***REMOVED***
+      }
       
       // User is admin, continue loading
       setLoading(false);
-    ***REMOVED*** catch (error) {
+    } catch (error) {
       console.error('Error in admin check:', error);
       navigate('/');
-    ***REMOVED***
-  ***REMOVED***
+    }
+  }
 
   async function fetchStats() {
     try {
       const [jobs, companies, applications] = await Promise.all([
-        supabase.from('jobs').select('id', { count: 'exact' ***REMOVED***),
-        supabase.from('companies').select('id', { count: 'exact' ***REMOVED***),
-        supabase.from('applications').select('id', { count: 'exact' ***REMOVED***),
+        supabase.from('jobs').select('id', { count: 'exact' }),
+        supabase.from('companies').select('id', { count: 'exact' }),
+        supabase.from('applications').select('id', { count: 'exact' }),
       ]);
 
       setStats({
         totalJobs: jobs.count || 0,
         totalCompanies: companies.count || 0,
         totalApplications: applications.count || 0,
-      ***REMOVED***);
-    ***REMOVED*** catch (error) {
+      });
+    } catch (error) {
       console.error('Error fetching stats:', error);
-    ***REMOVED***
-  ***REMOVED***
+    }
+  }
 
   if (loading) {
     return (
@@ -128,7 +128,7 @@ function AdminDashboard() {
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#ffdde2]"></div>
       </div>
     );
-  ***REMOVED***
+  }
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -140,7 +140,7 @@ function AdminDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm opacity-70">Total Jobs</p>
-                <p className="text-2xl font-bold">{stats.totalJobs***REMOVED***</p>
+                <p className="text-2xl font-bold">{stats.totalJobs}</p>
               </div>
               <Briefcase className="h-8 w-8 opacity-70" />
             </div>
@@ -150,7 +150,7 @@ function AdminDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm opacity-70">Total Companies</p>
-                <p className="text-2xl font-bold">{stats.totalCompanies***REMOVED***</p>
+                <p className="text-2xl font-bold">{stats.totalCompanies}</p>
               </div>
               <Building2 className="h-8 w-8 opacity-70" />
             </div>
@@ -160,7 +160,7 @@ function AdminDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm opacity-70">Total Applications</p>
-                <p className="text-2xl font-bold">{stats.totalApplications***REMOVED***</p>
+                <p className="text-2xl font-bold">{stats.totalApplications}</p>
               </div>
               <Users className="h-8 w-8 opacity-70" />
             </div>
@@ -204,22 +204,22 @@ function AdminDashboard() {
 
         <div className="p-6">
           <Routes>
-            <Route index element={<AdminOverview stats={stats***REMOVED*** />***REMOVED*** />
-            <Route path="jobs" element={<JobsList />***REMOVED*** />
-            <Route path="jobs/:id" element={<JobDetails />***REMOVED*** />
-            <Route path="companies" element={<CompaniesList />***REMOVED*** />
-            <Route path="companies/new" element={<CompanyDetails />***REMOVED*** />
-            <Route path="companies/:id" element={<CompanyDetails />***REMOVED*** />
-            <Route path="applications" element={<ApplicationsList />***REMOVED*** />
-            <Route path="applications/:id" element={<ApplicationDetails />***REMOVED*** />
+            <Route index element={<AdminOverview stats={stats} />} />
+            <Route path="jobs" element={<JobsList />} />
+            <Route path="jobs/:id" element={<JobDetails />} />
+            <Route path="companies" element={<CompaniesList />} />
+            <Route path="companies/new" element={<CompanyDetails />} />
+            <Route path="companies/:id" element={<CompanyDetails />} />
+            <Route path="applications" element={<ApplicationsList />} />
+            <Route path="applications/:id" element={<ApplicationDetails />} />
           </Routes>
         </div>
       </div>
     </div>
   );
-***REMOVED***
+}
 
-function AdminOverview({ stats ***REMOVED***) {
+function AdminOverview({ stats }) {
   return (
     <div>
       <h2 className="text-2xl font-bold mb-6">Welcome to the Admin Dashboard</h2>
@@ -228,7 +228,7 @@ function AdminOverview({ stats ***REMOVED***) {
       </p>
     </div>
   );
-***REMOVED***
+}
 
 // function AdminCompanies() {
 //   const [companies, setCompanies] = useState([]);
@@ -236,27 +236,27 @@ function AdminOverview({ stats ***REMOVED***) {
 
 //   useEffect(() => {
 //     fetchCompanies();
-//   ***REMOVED***, []);
+//   }, []);
 
 //   async function fetchCompanies() {
 //     try {
-//       const { data, error ***REMOVED*** = await supabase
+//       const { data, error } = await supabase
 //         .from('companies')
 //         .select('*')
 //         .order('name');
 
 //       if (error) throw error;
 //       setCompanies(data || []);
-//     ***REMOVED*** catch (error) {
+//     } catch (error) {
 //       console.error('Error fetching companies:', error);
-//     ***REMOVED*** finally {
+//     } finally {
 //       setLoading(false);
-//     ***REMOVED***
-//   ***REMOVED***
+//     }
+//   }
 
 //   if (loading) {
 //     return <div>Loading...</div>;
-//   ***REMOVED***
+//   }
 
 //   return (
 //     <div>
@@ -269,31 +269,31 @@ function AdminOverview({ stats ***REMOVED***) {
 
 //       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 //         {companies.map((company) => (
-//           <div key={company.id***REMOVED*** className="bg-white rounded-lg shadow p-6">
+//           <div key={company.id} className="bg-white rounded-lg shadow p-6">
 //             <div className="flex items-center mb-4">
 //               {company.logo_url && (
 //                 <img
-//                   src={company.logo_url***REMOVED***
-//                   alt={company.name***REMOVED***
+//                   src={company.logo_url}
+//                   alt={company.name}
 //                   className="w-12 h-12 rounded object-cover mr-4"
 //                 />
-//               )***REMOVED***
-//               <h3 className="text-lg font-semibold">{company.name***REMOVED***</h3>
+//               )}
+//               <h3 className="text-lg font-semibold">{company.name}</h3>
 //             </div>
-//             <p className="text-gray-600 text-sm mb-4">{company.description***REMOVED***</p>
+//             <p className="text-gray-600 text-sm mb-4">{company.description}</p>
 //             <div className="flex items-center text-sm text-gray-500">
 //               <MapPin className="h-4 w-4 mr-1" />
-//               {company.location***REMOVED***
+//               {company.location}
 //             </div>
 //             <div className="mt-4 flex justify-end space-x-2">
 //               <button className="text-indigo-600 hover:text-indigo-900">Edit</button>
 //               <button className="text-red-600 hover:text-red-900">Delete</button>
 //             </div>
 //           </div>
-//         ))***REMOVED***
+//         ))}
 //       </div>
 //     </div>
 //   );
-// ***REMOVED***
+// }
 
 export default AdminDashboard;

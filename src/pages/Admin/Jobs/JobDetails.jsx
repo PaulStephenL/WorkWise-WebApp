@@ -1,10 +1,10 @@
-import React, { useState, useEffect ***REMOVED*** from 'react';
-import { useParams, useNavigate ***REMOVED*** from 'react-router-dom';
-import { supabase ***REMOVED*** from '../../../lib/supabase';
-import { ArrowLeft, Save, Trash ***REMOVED*** from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { supabase } from '../../../lib/supabase';
+import { ArrowLeft, Save, Trash } from 'lucide-react';
 
 const JobDetails = () => {
-  const { id ***REMOVED*** = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -15,7 +15,7 @@ const JobDetails = () => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 30); // Set default deadline to 30 days from now
     return tomorrow.toISOString().split('T')[0];
-  ***REMOVED***
+  }
   
   const [job, setJob] = useState({
     title: '',
@@ -26,31 +26,31 @@ const JobDetails = () => {
     qualifications: '',
     salary_range: '',
     deadline: getTomorrowDate() // Initialize with default deadline
-  ***REMOVED***);
+  });
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
     fetchCompanies();
     if (id !== 'new') {
       fetchJobDetails();
-    ***REMOVED*** else {
+    } else {
       setLoading(false);
-    ***REMOVED***
-  ***REMOVED***, [id]);
+    }
+  }, [id]);
 
   async function fetchCompanies() {
     try {
-      const { data, error ***REMOVED*** = await supabase
+      const { data, error } = await supabase
         .from('companies')
         .select('id, name')
         .order('name');
       
       if (error) throw error;
       setCompanies(data || []);
-    ***REMOVED*** catch (error) {
+    } catch (error) {
       console.error('Error fetching companies:', error);
-    ***REMOVED***
-  ***REMOVED***
+    }
+  }
 
   // Function to handle qualifications as an array
   function formatQualificationsToArray(qualificationsString) {
@@ -60,18 +60,18 @@ const JobDetails = () => {
       .split(/[\n,]+/)
       .map(item => item.trim())
       .filter(item => item.length > 0);
-  ***REMOVED***
+  }
   
   // Function to handle converting array to string for the textarea
   function formatQualificationsToString(qualificationsArray) {
     if (!qualificationsArray || !Array.isArray(qualificationsArray)) return '';
     return qualificationsArray.join('\n');
-  ***REMOVED***
+  }
 
   async function fetchJobDetails() {
     setLoading(true);
     try {
-      const { data, error ***REMOVED*** = await supabase
+      const { data, error } = await supabase
         .from('jobs')
         .select('*')
         .eq('id', id)
@@ -83,21 +83,21 @@ const JobDetails = () => {
         // Format the date for the date input (YYYY-MM-DD)
         if (data.deadline) {
           data.deadline = new Date(data.deadline).toISOString().split('T')[0];
-        ***REMOVED***
+        }
         
         // Convert qualifications array to string for textarea
         if (data.qualifications && Array.isArray(data.qualifications)) {
           data.qualifications = formatQualificationsToString(data.qualifications);
-        ***REMOVED***
+        }
         
         setJob(data);
-      ***REMOVED***
-    ***REMOVED*** catch (error) {
+      }
+    } catch (error) {
       console.error('Error fetching job details:', error);
-    ***REMOVED*** finally {
+    } finally {
       setLoading(false);
-    ***REMOVED***
-  ***REMOVED***
+    }
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -116,12 +116,12 @@ const JobDetails = () => {
         qualifications: formatQualificationsToArray(job.qualifications),
         salary_range: job.salary_range || '',
         deadline: job.deadline // Required field
-      ***REMOVED***;
+      };
       
       // Add created_at for new jobs only if we're creating a new job
       if (id === 'new') {
         jobData.created_at = new Date().toISOString();
-      ***REMOVED***
+      }
 
       if (id === 'new') {
         // Create new job
@@ -133,8 +133,8 @@ const JobDetails = () => {
         // Navigate back to jobs list
         setTimeout(() => {
           navigate('/admin/jobs');
-        ***REMOVED***, 1500);
-      ***REMOVED*** else {
+        }, 1500);
+      } else {
         // Update existing job
         await supabase
           .from('jobs')
@@ -145,16 +145,16 @@ const JobDetails = () => {
         // Navigate back to jobs list
         setTimeout(() => {
           navigate('/admin/jobs');
-        ***REMOVED***, 1500);
-      ***REMOVED***
-    ***REMOVED*** catch (error) {
+        }, 1500);
+      }
+    } catch (error) {
       console.error('Error saving job:', error);
-    ***REMOVED*** finally {
+    } finally {
       setSaving(false);
       // Scroll to top to show success message
       window.scrollTo(0, 0);
-    ***REMOVED***
-  ***REMOVED***
+    }
+  }
 
   async function handleDelete() {
     if (!confirm('Are you sure you want to delete this job?')) return;
@@ -166,10 +166,10 @@ const JobDetails = () => {
         .eq('id', id);
       
       navigate('/admin/jobs');
-    ***REMOVED*** catch (error) {
+    } catch (error) {
       console.error('Error deleting job:', error);
-    ***REMOVED***
-  ***REMOVED***
+    }
+  }
 
   if (loading) {
     return (
@@ -177,47 +177,47 @@ const JobDetails = () => {
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#101d42]"></div>
       </div>
     );
-  ***REMOVED***
+  }
 
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center">
           <button 
-            onClick={() => navigate('/admin/jobs')***REMOVED***
+            onClick={() => navigate('/admin/jobs')}
             className="mr-4 text-gray-500 hover:text-gray-700"
           >
             <ArrowLeft className="h-5 w-5" />
           </button>
-          <h1 className="text-2xl font-bold">{id === 'new' ? 'Create Job' : 'Edit Job'***REMOVED***</h1>
+          <h1 className="text-2xl font-bold">{id === 'new' ? 'Create Job' : 'Edit Job'}</h1>
         </div>
         
         {id !== 'new' && (
           <button
-            onClick={handleDelete***REMOVED***
+            onClick={handleDelete}
             className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 flex items-center"
           >
             <Trash className="h-4 w-4 mr-1" />
             Delete
           </button>
-        )***REMOVED***
+        )}
       </div>
       
       {success && (
         <div className="mb-4 p-4 bg-green-50 border-l-4 border-green-400 text-green-700">
-          {success***REMOVED***
+          {success}
         </div>
-      )***REMOVED***
+      )}
       
-      <form onSubmit={handleSubmit***REMOVED*** className="bg-white p-6 rounded-lg shadow-md">
+      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-1">Job Title *</label>
             <input
               type="text"
               required
-              value={job.title***REMOVED***
-              onChange={(e) => setJob({...job, title: e.target.value***REMOVED***)***REMOVED***
+              value={job.title}
+              onChange={(e) => setJob({...job, title: e.target.value})}
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#101d42]"
             />
           </div>
@@ -226,16 +226,16 @@ const JobDetails = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">Company *</label>
             <select
               required
-              value={job.company_id***REMOVED***
-              onChange={(e) => setJob({...job, company_id: e.target.value***REMOVED***)***REMOVED***
+              value={job.company_id}
+              onChange={(e) => setJob({...job, company_id: e.target.value})}
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#101d42]"
             >
               <option value="">Select a company</option>
               {companies.map(company => (
-                <option key={company.id***REMOVED*** value={company.id***REMOVED***>
-                  {company.name***REMOVED***
+                <option key={company.id} value={company.id}>
+                  {company.name}
                 </option>
-              ))***REMOVED***
+              ))}
             </select>
           </div>
           
@@ -243,9 +243,9 @@ const JobDetails = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">Description *</label>
             <textarea
               required
-              rows={6***REMOVED***
-              value={job.description***REMOVED***
-              onChange={(e) => setJob({...job, description: e.target.value***REMOVED***)***REMOVED***
+              rows={6}
+              value={job.description}
+              onChange={(e) => setJob({...job, description: e.target.value})}
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#101d42]"
             ></textarea>
           </div>
@@ -255,8 +255,8 @@ const JobDetails = () => {
             <input
               type="text"
               required
-              value={job.location***REMOVED***
-              onChange={(e) => setJob({...job, location: e.target.value***REMOVED***)***REMOVED***
+              value={job.location}
+              onChange={(e) => setJob({...job, location: e.target.value})}
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#101d42]"
             />
           </div>
@@ -265,8 +265,8 @@ const JobDetails = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">Job Type *</label>
             <select
               required
-              value={job.type***REMOVED***
-              onChange={(e) => setJob({...job, type: e.target.value***REMOVED***)***REMOVED***
+              value={job.type}
+              onChange={(e) => setJob({...job, type: e.target.value})}
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#101d42]"
             >
               <option value="">Select type</option>
@@ -282,8 +282,8 @@ const JobDetails = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">Salary Range</label>
             <input
               type="text"
-              value={job.salary_range || ''***REMOVED***
-              onChange={(e) => setJob({...job, salary_range: e.target.value***REMOVED***)***REMOVED***
+              value={job.salary_range || ''}
+              onChange={(e) => setJob({...job, salary_range: e.target.value})}
               placeholder="e.g. $50,000 - $70,000"
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#101d42]"
             />
@@ -293,11 +293,11 @@ const JobDetails = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">Application Deadline *</label>
             <input
               type="date"
-              value={job.deadline || getTomorrowDate()***REMOVED***
-              onChange={(e) => setJob({...job, deadline: e.target.value***REMOVED***)***REMOVED***
+              value={job.deadline || getTomorrowDate()}
+              onChange={(e) => setJob({...job, deadline: e.target.value})}
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#101d42]"
               required
-              min={new Date().toISOString().split('T')[0]***REMOVED***
+              min={new Date().toISOString().split('T')[0]}
             />
             <p className="text-xs text-gray-500 mt-1">
               Required field - applications must be submitted before this date.
@@ -307,9 +307,9 @@ const JobDetails = () => {
           <div className="col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-1">Qualifications</label>
             <textarea
-              rows={4***REMOVED***
-              value={job.qualifications || ''***REMOVED***
-              onChange={(e) => setJob({...job, qualifications: e.target.value***REMOVED***)***REMOVED***
+              rows={4}
+              value={job.qualifications || ''}
+              onChange={(e) => setJob({...job, qualifications: e.target.value})}
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#101d42]"
               placeholder="Enter each qualification on a new line or separate with commas"
             ></textarea>
@@ -322,14 +322,14 @@ const JobDetails = () => {
         <div className="mt-8 flex justify-end">
           <button
             type="button"
-            onClick={() => navigate('/admin/jobs')***REMOVED***
+            onClick={() => navigate('/admin/jobs')}
             className="bg-gray-200 text-gray-700 px-4 py-2 rounded mr-4 hover:bg-gray-300"
           >
             Cancel
           </button>
           <button
             type="submit"
-            disabled={saving***REMOVED***
+            disabled={saving}
             className="bg-[#101d42] text-white px-6 py-2 rounded hover:bg-opacity-90 flex items-center"
           >
             {saving ? (
@@ -342,12 +342,12 @@ const JobDetails = () => {
                 <Save className="h-4 w-4 mr-2" />
                 Save Job
               </>
-            )***REMOVED***
+            )}
           </button>
         </div>
       </form>
     </div>
   );
-***REMOVED***;
+};
 
 export default JobDetails; 

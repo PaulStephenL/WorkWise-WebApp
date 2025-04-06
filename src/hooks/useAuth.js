@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef, useCallback ***REMOVED*** from 'react';
-import { useNavigate ***REMOVED*** from 'react-router-dom';
-import { supabase ***REMOVED*** from '../lib/supabase';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 
 export function useAuth() {
   const [user, setUser] = useState(null);
@@ -19,7 +19,7 @@ export function useAuth() {
         setLoading(true);
         
         // Get current session
-        const { data: { session ***REMOVED***, error: sessionError ***REMOVED*** = await supabase.auth.getSession();
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
         if (sessionError) {
           console.error('Session error:', sessionError);
@@ -27,19 +27,19 @@ export function useAuth() {
           setUserRole(null);
           setLoading(false);
           return;
-        ***REMOVED***
+        }
         
         // Set up auth listener first
-        const { data ***REMOVED*** = supabase.auth.onAuthStateChange(async (event, newSession) => {
+        const { data } = supabase.auth.onAuthStateChange(async (event, newSession) => {
           if (event === 'SIGNED_IN' && newSession) {
             setUser(newSession.user);
             await fetchUserRole(newSession.user.id);
-          ***REMOVED*** 
+          } 
           else if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
             setUser(null);
             setUserRole(null);
-          ***REMOVED***
-        ***REMOVED***);
+          }
+        });
         
         authListener = data.subscription;
         
@@ -47,25 +47,25 @@ export function useAuth() {
         if (session?.user) {
           setUser(session.user);
           await fetchUserRole(session.user.id);
-        ***REMOVED*** else {
+        } else {
           setUser(null);
           setUserRole(null);
-        ***REMOVED***
-      ***REMOVED*** catch (error) {
+        }
+      } catch (error) {
         console.error('Error in auth initialization:', error);
         setUser(null);
         setUserRole(null);
-      ***REMOVED*** finally {
+      } finally {
         if (isMounted.current) {
           setLoading(false);
-        ***REMOVED***
-      ***REMOVED***
-    ***REMOVED***
+        }
+      }
+    }
     
     // Separate function to fetch user role
     async function fetchUserRole(userId) {
       try {
-        const { data: profileData, error: profileError ***REMOVED*** = await supabase
+        const { data: profileData, error: profileError } = await supabase
           .from('profiles')
           .select('role')
           .eq('id', userId)
@@ -74,16 +74,16 @@ export function useAuth() {
         if (profileError) {
           console.error('Error fetching user role:', profileError);
           if (isMounted.current) setUserRole('user'); // Default to user role on error
-        ***REMOVED*** else if (profileData) {
+        } else if (profileData) {
           if (isMounted.current) setUserRole(profileData.role || 'user');
-        ***REMOVED*** else {
+        } else {
           if (isMounted.current) setUserRole('user');
-        ***REMOVED***
-      ***REMOVED*** catch (error) {
+        }
+      } catch (error) {
         console.error('Error fetching role:', error);
         if (isMounted.current) setUserRole('user');
-      ***REMOVED***
-    ***REMOVED***
+      }
+    }
     
     // Initialize auth
     initializeAuth();
@@ -94,9 +94,9 @@ export function useAuth() {
       isMounted.current = false;
       if (authListener) {
         authListener.unsubscribe();
-      ***REMOVED***
-    ***REMOVED***;
-  ***REMOVED***, []);
+      }
+    };
+  }, []);
 
   // Logout handler
   const logout = useCallback(async () => {
@@ -111,18 +111,18 @@ export function useAuth() {
       
       
       // Sign out from Supabase
-      const { error ***REMOVED*** = await supabase.auth.signOut();
+      const { error } = await supabase.auth.signOut();
       
       if (error) throw error;
       
       navigate('/');
-    ***REMOVED*** catch (error) {
+    } catch (error) {
       console.error('Error during logout:', error);
       setUser(null);
       setUserRole(null);
       navigate('/');
-    ***REMOVED***
-  ***REMOVED***, [navigate]);
+    }
+  }, [navigate]);
 
   return {
     user,
@@ -131,5 +131,5 @@ export function useAuth() {
     logout,
     isAuthenticated: !!user,
     isAdmin: userRole === 'admin'
-  ***REMOVED***;
-***REMOVED*** 
+  };
+} 

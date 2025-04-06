@@ -1,21 +1,21 @@
-import { forwardRef ***REMOVED*** from "react";
-import { cn ***REMOVED*** from "../../lib/utils";
+import { forwardRef } from "react";
+import { cn } from "../../lib/utils";
 
-const Card = forwardRef(({ className, ...props ***REMOVED***, ref) => (
+const Card = forwardRef(({ className, ...props }, ref) => (
   <div
-    ref={ref***REMOVED***
+    ref={ref}
     className={cn(
       "rounded-xl border bg-card text-card-foreground shadow",
       className
-    )***REMOVED***
-    {...props***REMOVED***
+    )}
+    {...props}
   />
 ));
 Card.displayName = "Card";
 
-const CardContent = forwardRef(({ className, ...props ***REMOVED***, ref) => (
-  <div ref={ref***REMOVED*** className={cn("p-6 pt-0", className)***REMOVED*** {...props***REMOVED*** />
+const CardContent = forwardRef(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
 ));
 CardContent.displayName = "CardContent";
 
-export { Card, CardContent ***REMOVED***;
+export { Card, CardContent };

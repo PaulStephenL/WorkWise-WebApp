@@ -1,10 +1,10 @@
 import React from 'react';
-import { Users, Target, Briefcase, Award ***REMOVED*** from 'lucide-react';
+import { Users, Target, Briefcase, Award } from 'lucide-react';
 
 function About() {
   return (
     <div className="max-w-4xl mx-auto">
-      {/* Hero Section */***REMOVED***
+      {/* Hero Section */}
       <div className="bg-[#101d42] rounded-lg p-8 mb-8 text-white text-center">
         <h1 className="text-4xl font-bold mb-4">About WorkWise</h1>
         <p className="text-lg">
@@ -12,7 +12,7 @@ function About() {
         </p>
       </div>
 
-      {/* Mission & Vision */***REMOVED***
+      {/* Mission & Vision */}
       <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
         <div className="grid md:grid-cols-2 gap-8">
           <div>
@@ -34,7 +34,7 @@ function About() {
         </div>
       </div>
 
-      {/* Key Features */***REMOVED***
+      {/* Key Features */}
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="bg-white p-6 rounded-lg shadow-lg text-center">
           <Users className="h-12 w-12 text-[#101d42] mx-auto mb-4" />
@@ -66,7 +66,7 @@ function About() {
         </div>
       </div>
 
-      {/* Team Section */***REMOVED***
+      {/* Team Section */}
       <div className="bg-white rounded-lg shadow-lg p-8">
         <h2 className="text-2xl font-bold mb-8 text-center text-gray-900">Our Team</h2>
         <div className="grid md:grid-cols-3 gap-8">
@@ -75,32 +75,32 @@ function About() {
               name: 'Sarah Johnson',
               role: 'CEO & Founder',
               image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
-            ***REMOVED***,
+            },
             {
               name: 'Michael Chen',
               role: 'Head of Technology',
               image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d',
-            ***REMOVED***,
+            },
             {
               name: 'Emily Rodriguez',
               role: 'Head of Operations',
               image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e',
-            ***REMOVED***,
+            },
           ].map((member) => (
-            <div key={member.name***REMOVED*** className="text-center">
+            <div key={member.name} className="text-center">
               <img
-                src={member.image***REMOVED***
-                alt={member.name***REMOVED***
+                src={member.image}
+                alt={member.name}
                 className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
               />
-              <h3 className="text-xl font-semibold mb-1">{member.name***REMOVED***</h3>
-              <p className="text-[#798478]">{member.role***REMOVED***</p>
+              <h3 className="text-xl font-semibold mb-1">{member.name}</h3>
+              <p className="text-[#798478]">{member.role}</p>
             </div>
-          ))***REMOVED***
+          ))}
         </div>
       </div>
     </div>
   );
-***REMOVED***
+}
 
 export default About;

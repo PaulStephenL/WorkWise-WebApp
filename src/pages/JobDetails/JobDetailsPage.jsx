@@ -1,10 +1,10 @@
-import React, { useEffect, useState ***REMOVED*** from 'react';
-import { useParams, useNavigate ***REMOVED*** from 'react-router-dom';
-import { MapPin, Briefcase, Calendar, DollarSign, CheckCircle ***REMOVED*** from 'lucide-react';
-import { supabase ***REMOVED*** from '../../lib/supabase';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { MapPin, Briefcase, Calendar, DollarSign, CheckCircle } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
 
 function JobDetailsPage() {
-  const { id ***REMOVED*** = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,29 +17,29 @@ function JobDetailsPage() {
   useEffect(() => {
     fetchJob();
     fetchUserAndRole();
-  ***REMOVED***, [id]);
+  }, [id]);
 
   useEffect(() => {
     // Check application only after we have user info
     if (user && id) {
       checkApplication();
-    ***REMOVED***
-  ***REMOVED***, [user, id]);
+    }
+  }, [user, id]);
 
   async function fetchUserAndRole() {
     try {
-      const { data: { user: currentUser ***REMOVED***, error: userError ***REMOVED*** = await supabase.auth.getUser();
+      const { data: { user: currentUser }, error: userError } = await supabase.auth.getUser();
       
       if (userError) {
         console.error('Error getting current user:', userError);
         return;
-      ***REMOVED***
+      }
       
       if (currentUser) {
         setUser(currentUser);
         
         // Fetch user role from profiles
-        const { data: profileData, error: profileError ***REMOVED*** = await supabase
+        const { data: profileData, error: profileError } = await supabase
           .from('profiles')
           .select('role')
           .eq('id', currentUser.id)
@@ -47,20 +47,20 @@ function JobDetailsPage() {
         
         if (profileError) {
           console.error('Error fetching user role:', profileError);
-        ***REMOVED*** else if (profileData) {
+        } else if (profileData) {
           setUserRole(profileData.role || 'user');
-        ***REMOVED***
-      ***REMOVED***
-    ***REMOVED*** catch (error) {
+        }
+      }
+    } catch (error) {
       console.error('Error fetching user and role:', error);
-    ***REMOVED***
-  ***REMOVED***
+    }
+  }
 
   async function fetchJob() {
     try {
       if (!id) return;
 
-      const { data, error ***REMOVED*** = await supabase
+      const { data, error } = await supabase
         .from('jobs')
         .select(`
           *,
@@ -71,18 +71,18 @@ function JobDetailsPage() {
 
       if (error) throw error;
       setJob(data);
-    ***REMOVED*** catch (error) {
+    } catch (error) {
       console.error('Error fetching job:', error);
-    ***REMOVED*** finally {
+    } finally {
       setLoading(false);
-    ***REMOVED***
-  ***REMOVED***
+    }
+  }
 
   async function checkApplication() {
     try {
       if (!user || !id) return;
 
-      const { data, error ***REMOVED*** = await supabase
+      const { data, error } = await supabase
         .from('applications')
         .select('id')
         .eq('job_id', id)
@@ -91,41 +91,41 @@ function JobDetailsPage() {
 
       if (error && error.code !== 'PGRST116') throw error;
       setHasApplied(!!data);
-    ***REMOVED*** catch (error) {
+    } catch (error) {
       console.error('Error checking application:', error);
-    ***REMOVED***
-  ***REMOVED***
+    }
+  }
 
   async function handleApply() {
     try {
       if (!user) {
         navigate('/login');
         return;
-      ***REMOVED***
+      }
       
       // Prevent admin users from applying
       if (userRole === 'admin') {
         setError("Admin users cannot apply for jobs");
         return;
-      ***REMOVED***
+      }
 
       setApplying(true);
-      const { error ***REMOVED*** = await supabase
+      const { error } = await supabase
         .from('applications')
         .insert({
           job_id: id,
           user_id: user.id,
           status: 'pending'
-        ***REMOVED***);
+        });
 
       if (error) throw error;
       setHasApplied(true);
-    ***REMOVED*** catch (error) {
+    } catch (error) {
       setError(error instanceof Error ? error.message : 'Failed to apply');
-    ***REMOVED*** finally {
+    } finally {
       setApplying(false);
-    ***REMOVED***
-  ***REMOVED***
+    }
+  }
 
   if (loading) {
     return (
@@ -133,7 +133,7 @@ function JobDetailsPage() {
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#ffdde2]"></div>
       </div>
     );
-  ***REMOVED***
+  }
 
   if (!job) {
     return (
@@ -141,26 +141,26 @@ function JobDetailsPage() {
         <p>Job not found</p>
       </div>
     );
-  ***REMOVED***
+  }
 
   return (
     <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
       <div className="p-8">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">{job.title***REMOVED***</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">{job.title}</h1>
             <div className="flex items-center space-x-4 text-gray-600 mb-6">
               <span className="flex items-center">
                 <Briefcase className="h-5 w-5 mr-1" />
-                {job.company?.name***REMOVED***
+                {job.company?.name}
               </span>
               <span className="flex items-center">
                 <MapPin className="h-5 w-5 mr-1" />
-                {job.location***REMOVED***
+                {job.location}
               </span>
               <span className="flex items-center">
                 <Calendar className="h-5 w-5 mr-1" />
-                {new Date(job.deadline).toLocaleDateString()***REMOVED***
+                {new Date(job.deadline).toLocaleDateString()}
               </span>
             </div>
           </div>
@@ -168,31 +168,31 @@ function JobDetailsPage() {
           {job.salary_range && (
             <div className="flex items-center text-[#798478] font-semibold">
               <DollarSign className="h-5 w-5 mr-1" />
-              {job.salary_range***REMOVED***
+              {job.salary_range}
             </div>
-          )***REMOVED***
+          )}
         </div>
 
         <div className="prose max-w-none mb-8">
           <h2 className="text-xl font-semibold mb-4">Job Description</h2>
-          <p className="whitespace-pre-wrap">{job.description***REMOVED***</p>
+          <p className="whitespace-pre-wrap">{job.description}</p>
 
           <h2 className="text-xl font-semibold mt-8 mb-4">Qualifications</h2>
           <ul className="space-y-2">
             {job.qualifications.map((qualification, index) => (
-              <li key={index***REMOVED*** className="flex items-start">
+              <li key={index} className="flex items-start">
                 <CheckCircle className="h-5 w-5 mr-2 text-green-500 flex-shrink-0 mt-1" />
-                <span>{qualification***REMOVED***</span>
+                <span>{qualification}</span>
               </li>
-            ))***REMOVED***
+            ))}
           </ul>
         </div>
 
         {error && (
           <div className="mb-4 p-4 bg-red-50 text-red-700 rounded-md">
-            {error***REMOVED***
+            {error}
           </div>
-        )***REMOVED***
+        )}
 
         <div className="text-center">
           {hasApplied ? (
@@ -206,17 +206,17 @@ function JobDetailsPage() {
             </div>
           ) : (
             <button
-              onClick={handleApply***REMOVED***
-              disabled={applying***REMOVED***
+              onClick={handleApply}
+              disabled={applying}
               className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#101d42] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#101d42] disabled:opacity-50"
             >
-              {applying ? 'Applying...' : 'Apply Now'***REMOVED***
+              {applying ? 'Applying...' : 'Apply Now'}
             </button>
-          )***REMOVED***
+          )}
         </div>
       </div>
     </div>
   );
-***REMOVED***
+}
 
 export default JobDetailsPage; 

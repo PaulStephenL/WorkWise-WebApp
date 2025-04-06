@@ -1,5 +1,5 @@
-import React, { useState ***REMOVED*** from 'react';
-import { Mail, Phone, MapPin, Send, AlertCircle ***REMOVED*** from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, Phone, MapPin, Send, AlertCircle } from 'lucide-react';
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -7,7 +7,7 @@ function Contact() {
     email: '',
     subject: '',
     message: '',
-  ***REMOVED***);
+  });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -22,18 +22,18 @@ function Contact() {
       // In a real application, you would send this to your backend
       await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
       setSuccess(true);
-      setFormData({ name: '', email: '', subject: '', message: '' ***REMOVED***);
-    ***REMOVED*** catch (error) {
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
       setError('Failed to send message. Please try again later.');
-    ***REMOVED*** finally {
+    } finally {
       setLoading(false);
-    ***REMOVED***
-  ***REMOVED***;
+    }
+  };
 
   const handleChange = (e) => {
-    const { name, value ***REMOVED*** = e.target;
-    setFormData(prev => ({ ...prev, [name]: value ***REMOVED***));
-  ***REMOVED***;
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -45,7 +45,7 @@ function Contact() {
       </div>
 
       <div className="grid md:grid-cols-3 gap-8">
-        {/* Contact Information */***REMOVED***
+        {/* Contact Information */}
         <div className="md:col-span-1 space-y-6">
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <div className="flex items-center space-x-4 text-gray-600">
@@ -78,23 +78,23 @@ function Contact() {
           </div>
         </div>
 
-        {/* Contact Form */***REMOVED***
+        {/* Contact Form */}
         <div className="md:col-span-2">
           <div className="bg-white rounded-lg shadow-lg p-8">
             {error && (
               <div className="mb-4 p-4 bg-red-50 border-l-4 border-red-400 text-red-700 flex items-center">
                 <AlertCircle className="h-5 w-5 mr-2" />
-                <p>{error***REMOVED***</p>
+                <p>{error}</p>
               </div>
-            )***REMOVED***
+            )}
 
             {success && (
               <div className="mb-4 p-4 bg-green-50 border-l-4 border-green-400 text-green-700">
                 Thank you for your message. We'll get back to you soon!
               </div>
-            )***REMOVED***
+            )}
 
-            <form onSubmit={handleSubmit***REMOVED*** className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                   Full Name
@@ -105,8 +105,8 @@ function Contact() {
                   name="name"
                   required
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#101d42] focus:ring focus:ring-[#101d42] focus:ring-opacity-50"
-                  value={formData.name***REMOVED***
-                  onChange={handleChange***REMOVED***
+                  value={formData.name}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -120,8 +120,8 @@ function Contact() {
                   name="email"
                   required
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#101d42] focus:ring focus:ring-[#101d42] focus:ring-opacity-50"
-                  value={formData.email***REMOVED***
-                  onChange={handleChange***REMOVED***
+                  value={formData.email}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -135,8 +135,8 @@ function Contact() {
                   name="subject"
                   required
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#101d42] focus:ring focus:ring-[#101d42] focus:ring-opacity-50"
-                  value={formData.subject***REMOVED***
-                  onChange={handleChange***REMOVED***
+                  value={formData.subject}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -147,17 +147,17 @@ function Contact() {
                 <textarea
                   id="message"
                   name="message"
-                  rows={4***REMOVED***
+                  rows={4}
                   required
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#101d42] focus:ring focus:ring-[#101d42] focus:ring-opacity-50"
-                  value={formData.message***REMOVED***
-                  onChange={handleChange***REMOVED***
+                  value={formData.message}
+                  onChange={handleChange}
                 />
               </div>
 
               <button
                 type="submit"
-                disabled={loading***REMOVED***
+                disabled={loading}
                 className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#101d42] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#101d42] disabled:opacity-50"
               >
                 {loading ? (
@@ -167,7 +167,7 @@ function Contact() {
                     <Send className="h-5 w-5 mr-2" />
                     Send Message
                   </>
-                )***REMOVED***
+                )}
               </button>
             </form>
           </div>
@@ -175,6 +175,6 @@ function Contact() {
       </div>
     </div>
   );
-***REMOVED***
+}
 
 export default Contact;

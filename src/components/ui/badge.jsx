@@ -1,10 +1,10 @@
-export function Badge({ className, children, ...props ***REMOVED***) {
+export function Badge({ className, children, ...props }) {
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${className***REMOVED***`***REMOVED***
-      {...props***REMOVED***
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${className}`}
+      {...props}
     >
-      {children***REMOVED***
+      {children}
     </span>
   );
-***REMOVED*** 
+} 

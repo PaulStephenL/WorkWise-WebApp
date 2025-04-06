@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link ***REMOVED*** from 'react-router-dom';
-import { User ***REMOVED*** from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { User } from 'lucide-react';
 
-function UserMenu({ userRole, showUserMenu, setShowUserMenu, handleLogout ***REMOVED***) {
+function UserMenu({ userRole, showUserMenu, setShowUserMenu, handleLogout }) {
   return (
     <div className="relative">
       <button
-        onClick={() => setShowUserMenu(!showUserMenu)***REMOVED***
+        onClick={() => setShowUserMenu(!showUserMenu)}
         className="flex items-center space-x-2 px-4 py-2 rounded bg-[#798478] hover:bg-[#a0a083] transition-colors"
       >
         <User className="h-5 w-5" />
@@ -16,9 +16,9 @@ function UserMenu({ userRole, showUserMenu, setShowUserMenu, handleLogout ***REM
       {showUserMenu && (
         <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
           <Link
-            to={userRole === 'admin' ? "/admin" : "/user/dashboard"***REMOVED***
+            to={userRole === 'admin' ? "/admin" : "/user/dashboard"}
             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            onClick={() => setShowUserMenu(false)***REMOVED***
+            onClick={() => setShowUserMenu(false)}
           >
             Dashboard
           </Link>
@@ -26,26 +26,26 @@ function UserMenu({ userRole, showUserMenu, setShowUserMenu, handleLogout ***REM
             <Link
               to="/user/profile"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              onClick={() => setShowUserMenu(false)***REMOVED***
+              onClick={() => setShowUserMenu(false)}
             >
               Profile Settings
             </Link>
-          )***REMOVED***
+          )}
           <button
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
               console.log('Logout button clicked');
               handleLogout();
-            ***REMOVED******REMOVED***
+            }}
             className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           >
             Logout
           </button>
         </div>
-      )***REMOVED***
+      )}
     </div>
   );
-***REMOVED***
+}
 
 export default UserMenu; 

@@ -1,10 +1,10 @@
 // import React from 'react';
-// import { Link, Outlet ***REMOVED*** from 'react-router-dom';
+// import { Link, Outlet } from 'react-router-dom';
 
 // const AdminLayout = () => {
 //   return (
 //     <div className="flex">
-//       {/* Simple Sidebar */***REMOVED***
+//       {/* Simple Sidebar */}
 //       <nav className="w-64 min-h-screen bg-gray-800 p-4">
 //         <div className="text-white mb-8">Admin Dashboard</div>
 //         <ul className="text-gray-300">
@@ -16,12 +16,12 @@
 //         </ul>
 //       </nav>
       
-//       {/* Main Content */***REMOVED***
+//       {/* Main Content */}
 //       <main className="flex-1 p-8">
 //         <Outlet />
 //       </main>
 //     </div>
 //   );
-// ***REMOVED***;
+// };
 
 // export default AdminLayout; 

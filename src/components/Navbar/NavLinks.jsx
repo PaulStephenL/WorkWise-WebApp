@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link ***REMOVED*** from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function NavLinks() {
   return (
@@ -9,6 +9,6 @@ function NavLinks() {
       <Link to="/contact" className="hover:text-[#ffdde2]">Contact</Link>
     </div>
   );
-***REMOVED***
+}
 
 export default NavLinks; 

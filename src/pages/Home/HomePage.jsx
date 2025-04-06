@@ -1,18 +1,18 @@
-import React, { useEffect, useState ***REMOVED*** from 'react';
-import { useAuth ***REMOVED*** from '../../hooks/useAuth';
-import { useJobs ***REMOVED*** from '../../hooks/useJobs';
+import React, { useEffect, useState } from 'react';
+import { useAuth } from '../../hooks/useAuth';
+import { useJobs } from '../../hooks/useJobs';
 import SearchSection from './SearchSection';
 import JobList from './JobList';
 import StatusMessage from '../../components/ui/StatusMessage';
 
 function HomePage() {
   const [searchTerm, setSearchTerm] = useState('');
-  const { user ***REMOVED*** = useAuth();
-  const { jobs, loading, error, fetchJobs ***REMOVED*** = useJobs();
+  const { user } = useAuth();
+  const { jobs, loading, error, fetchJobs } = useJobs();
 
   useEffect(() => {
     fetchJobs();
-  ***REMOVED***, [user, fetchJobs]); // Refetch when user changes
+  }, [user, fetchJobs]); // Refetch when user changes
 
   const filteredJobs = jobs.filter(job =>
     job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -23,25 +23,25 @@ function HomePage() {
   return (
     <div className="max-w-6xl mx-auto">
       <SearchSection 
-        searchTerm={searchTerm***REMOVED*** 
-        setSearchTerm={setSearchTerm***REMOVED*** 
+        searchTerm={searchTerm} 
+        setSearchTerm={setSearchTerm} 
       />
       
       {error && (
         <div className="mb-6">
           <StatusMessage 
             type="error" 
-            message={`Error loading jobs: ${error***REMOVED***`***REMOVED*** 
+            message={`Error loading jobs: ${error}`} 
           />
         </div>
-      )***REMOVED***
+      )}
       
       <JobList 
-        jobs={filteredJobs***REMOVED*** 
-        loading={loading***REMOVED*** 
+        jobs={filteredJobs} 
+        loading={loading} 
       />
     </div>
   );
-***REMOVED***
+}
 
 export default HomePage; 

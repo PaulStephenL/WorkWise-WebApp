@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS jobs (
   company_id uuid NOT NULL REFERENCES companies(id) ON DELETE CASCADE,
   location text NOT NULL,
   type text NOT NULL,
-  qualifications text[] NOT NULL DEFAULT '{***REMOVED***',
+  qualifications text[] NOT NULL DEFAULT '{}',
   salary_range text,
   deadline timestamptz NOT NULL,
   created_at timestamptz DEFAULT now()

@@ -1,8 +1,8 @@
-export function Skeleton({ className, ...props ***REMOVED***) {
+export function Skeleton({ className, ...props }) {
   return (
     <div
-      className={`animate-pulse bg-gray-200 rounded ${className***REMOVED***`***REMOVED***
-      {...props***REMOVED***
+      className={`animate-pulse bg-gray-200 rounded ${className}`}
+      {...props}
     />
   );
-***REMOVED*** 
+} 

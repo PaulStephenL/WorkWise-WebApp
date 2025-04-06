@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link ***REMOVED*** from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function AuthButtons() {
   return (
@@ -18,6 +18,6 @@ function AuthButtons() {
       </Link>
     </>
   );
-***REMOVED***
+}
 
 export default AuthButtons; 

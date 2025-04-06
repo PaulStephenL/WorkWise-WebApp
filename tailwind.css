@@ -4,8 +4,8 @@
 @layer components {
   .all-\[unset\] {
     all: unset;
-  ***REMOVED***
-***REMOVED***
+  }
+}
 
 :root {
   --sub-title-text-font-family: "Sedan", Helvetica;
@@ -14,7 +14,7 @@
   --sub-title-text-font-weight: 400;
   --sub-title-text-letter-spacing: 0.5px;
   --sub-title-text-line-height: 30px;
-***REMOVED***
+}
 
 @tailwind base;
 @tailwind components;
@@ -52,7 +52,7 @@
     --ring: 215 20.2% 65.1%;
 
     --radius: 0.5rem;
-  ***REMOVED***
+  }
 
   .dark {
     --background: 224 71% 4%;
@@ -85,16 +85,16 @@
     --ring: 216 34% 17%;
 
     --radius: 0.5rem;
-  ***REMOVED***
-***REMOVED***
+  }
+}
 
 @layer base {
   * {
     @apply border-border;
-  ***REMOVED***
+  }
 
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
-  ***REMOVED***
-***REMOVED***
+  }
+}

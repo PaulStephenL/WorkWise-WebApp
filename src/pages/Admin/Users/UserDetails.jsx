@@ -1,33 +1,33 @@
-import React, { useState, useEffect ***REMOVED*** from 'react';
-import { useParams ***REMOVED*** from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 const UserDetails = () => {
-  const { id ***REMOVED*** = useParams();
+  const { id } = useParams();
   const [user, setUser] = useState({
     name: '',
     email: '',
     role: '',
-  ***REMOVED***);
+  });
 
   useEffect(() => {
     // TODO: Fetch user details
-  ***REMOVED***, [id]);
+  }, [id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // TODO: Update user
-  ***REMOVED***;
+  };
 
   return (
     <div>
       <h1 className="text-2xl font-bold mb-6">Edit User</h1>
-      <form onSubmit={handleSubmit***REMOVED***>
+      <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label>Name</label>
           <input
             type="text"
-            value={user.name***REMOVED***
-            onChange={(e) => setUser({...user, name: e.target.value***REMOVED***)***REMOVED***
+            value={user.name}
+            onChange={(e) => setUser({...user, name: e.target.value})}
             className="w-full p-2 border rounded"
           />
         </div>
@@ -35,16 +35,16 @@ const UserDetails = () => {
           <label>Email</label>
           <input
             type="email"
-            value={user.email***REMOVED***
-            onChange={(e) => setUser({...user, email: e.target.value***REMOVED***)***REMOVED***
+            value={user.email}
+            onChange={(e) => setUser({...user, email: e.target.value})}
             className="w-full p-2 border rounded"
           />
         </div>
         <div className="mb-4">
           <label>Role</label>
           <select
-            value={user.role***REMOVED***
-            onChange={(e) => setUser({...user, role: e.target.value***REMOVED***)***REMOVED***
+            value={user.role}
+            onChange={(e) => setUser({...user, role: e.target.value})}
             className="w-full p-2 border rounded"
           >
             <option value="user">User</option>
@@ -57,6 +57,6 @@ const UserDetails = () => {
       </form>
     </div>
   );
-***REMOVED***;
+};
 
 export default UserDetails; 

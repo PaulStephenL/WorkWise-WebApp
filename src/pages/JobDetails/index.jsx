@@ -1,2 +1,2 @@
 // Barrel file for JobDetails page
-export { default ***REMOVED*** from './JobDetailsPage'; 
+export { default } from './JobDetailsPage'; 

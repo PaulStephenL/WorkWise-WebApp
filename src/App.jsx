@@ -1,5 +1,5 @@
-import React, { useEffect, useState ***REMOVED*** from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate ***REMOVED*** from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -9,8 +9,8 @@ import SignUp from './pages/SignUp';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import AdminDashboard from './pages/Admin/Dashboard/AdminDashboard';
-import { LandingPage ***REMOVED*** from './pages/LandingPage';
-import { supabase, createUserProfile ***REMOVED*** from './lib/supabase';
+import { LandingPage } from './pages/LandingPage';
+import { supabase, createUserProfile } from './lib/supabase';
 import Dashboard from './pages/User/Dashboard';
 import Profile from './pages/User/Profile';
 import CompanyDetails from './pages/User/CompanyDetails';
@@ -33,28 +33,28 @@ function AuthCallback() {
           setError(errorDescription);
           setLoading(false);
           return;
-        ***REMOVED***
+        }
 
         // Refresh the session
-        const { error: refreshError ***REMOVED*** = await supabase.auth.refreshSession();
+        const { error: refreshError } = await supabase.auth.refreshSession();
         if (refreshError) {
           console.error('Error refreshing session:', refreshError);
           setError('Failed to verify email. Please try again.');
           setLoading(false);
           return;
-        ***REMOVED***
+        }
 
         // Get the current user
-        const { data: { user ***REMOVED*** ***REMOVED*** = await supabase.auth.getUser();
+        const { data: { user } } = await supabase.auth.getUser();
         
         if (!user) {
           setError('No user found. Please try signing up again.');
           setLoading(false);
           return;
-        ***REMOVED***
+        }
 
         // Check if user already exists in the users table
-        const { data: existingUser, error: checkError ***REMOVED*** = await supabase
+        const { data: existingUser, error: checkError } = await supabase
           .from('profiles')
           .select('id')
           .eq('id', user.id)
@@ -62,7 +62,7 @@ function AuthCallback() {
 
         if (checkError) {
           console.error('Error checking user existence:', checkError);
-        ***REMOVED***
+        }
 
         // If user doesn't exist in the profile table, create it
         if (!existingUser) {
@@ -70,7 +70,7 @@ function AuthCallback() {
           
           try {
             // Use the helper function to create a profile
-            const { data, error ***REMOVED*** = await createUserProfile(
+            const { data, error } = await createUserProfile(
               user.id, 
               user.user_metadata?.full_name || 'User',
               user.email
@@ -94,31 +94,31 @@ function AuthCallback() {
                   // Clear the stored credentials
                   sessionStorage.removeItem('temp_signup_email');
                   sessionStorage.removeItem('temp_signup_password');
-                ***REMOVED*** else {
+                } else {
                   password = window.prompt('Please enter your password to complete account setup:');
-                ***REMOVED***
+                }
                 
                 if (!password) {
                   setError('Your email was verified, but we had trouble setting up your account. Please try logging in directly.');
                   setLoading(false);
                   return;
-                ***REMOVED***
+                }
                 
                 // Try to sign in the user first to get a valid session
-                const { error: signInError ***REMOVED*** = await supabase.auth.signInWithPassword({
+                const { error: signInError } = await supabase.auth.signInWithPassword({
                   email: user.email,
                   password: password
-                ***REMOVED***);
+                });
                 
                 if (signInError) {
                   console.error('Error signing in:', signInError);
                   setError('Your email was verified, but we had trouble setting up your account. Please try logging in directly.');
                   setLoading(false);
                   return;
-                ***REMOVED***
+                }
                 
                 // Try again after signing in
-                const { error: retryError ***REMOVED*** = await createUserProfile(
+                const { error: retryError } = await createUserProfile(
                   user.id, 
                   user.user_metadata?.full_name || 'User',
                   user.email
@@ -129,46 +129,46 @@ function AuthCallback() {
                   setError('Your email was verified, but we had trouble setting up your account. Please try logging in directly.');
                   setLoading(false);
                   return;
-                ***REMOVED***
-              ***REMOVED*** else {
+                }
+              } else {
                 setError('Your email was verified, but we had trouble setting up your account. Please try logging in directly.');
                 setLoading(false);
                 return;
-              ***REMOVED***
-            ***REMOVED*** else {
+              }
+            } else {
               console.log('Successfully created user profile for:', user.id);
-            ***REMOVED***
-          ***REMOVED*** catch (profileError) {
+            }
+          } catch (profileError) {
             console.error('Error in profile creation:', profileError);
             setError('Your email was verified, but we had trouble setting up your account. Please try logging in directly.');
             setLoading(false);
             return;
-          ***REMOVED***
-        ***REMOVED*** else {
+          }
+        } else {
           console.log('User profile already exists for:', user.id);
-        ***REMOVED***
+        }
 
         // Redirect to login page
         navigate('/login', { 
-          state: { message: 'Email verified successfully! You can now log in.' ***REMOVED***
-        ***REMOVED***);
-      ***REMOVED*** catch (error) {
+          state: { message: 'Email verified successfully! You can now log in.' }
+        });
+      } catch (error) {
         console.error('Error in email confirmation:', error);
         setError('An error occurred during email verification.');
         setLoading(false);
-      ***REMOVED***
-    ***REMOVED***;
+      }
+    };
 
     handleEmailConfirmation();
-  ***REMOVED***, [navigate]);
+  }, [navigate]);
 
   return (
     <div className="text-center py-8">
       {error ? (
         <div className="bg-red-50 p-4 rounded-md">
-          <p className="text-red-700">{error***REMOVED***</p>
+          <p className="text-red-700">{error}</p>
           <button
-            onClick={() => navigate('/signup')***REMOVED***
+            onClick={() => navigate('/signup')}
             className="mt-4 text-red-600 hover:text-red-800 underline"
           >
             Back to Sign Up
@@ -179,10 +179,10 @@ function AuthCallback() {
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mb-4"></div>
           <p className="text-white">Verifying your email...</p>
         </div>
-      )***REMOVED***
+      )}
     </div>
   );
-***REMOVED***
+}
 
 function App() {
   return (
@@ -191,27 +191,27 @@ function App() {
         <Navbar />
         <main className="flex-grow container mx-auto px-4 py-8">
           <Routes>
-            <Route path="/" element={<LandingPage />***REMOVED*** />
-            <Route path="/home" element={<Home />***REMOVED*** />
-            <Route path="/jobs/:id" element={<JobDetails />***REMOVED*** />
-            <Route path="/login" element={<Login />***REMOVED*** />
-            <Route path="/signup" element={<SignUp />***REMOVED*** />
-            <Route path="/about" element={<About />***REMOVED*** />
-            <Route path="/contact" element={<Contact />***REMOVED*** />
-            <Route path="/admin/*" element={<AdminDashboard />***REMOVED*** />
-            <Route path="/auth/callback" element={<AuthCallback />***REMOVED*** />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/jobs/:id" element={<JobDetails />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/admin/*" element={<AdminDashboard />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
             
-            {/* User Routes */***REMOVED***
-            <Route path="/user/dashboard" element={<Dashboard />***REMOVED*** />
-            <Route path="/user/profile" element={<Profile />***REMOVED*** />
-            <Route path="/companies/:id" element={<CompanyDetails />***REMOVED*** />
-            <Route path="/jobs/:id" element={<JobDetails />***REMOVED*** />
+            {/* User Routes */}
+            <Route path="/user/dashboard" element={<Dashboard />} />
+            <Route path="/user/profile" element={<Profile />} />
+            <Route path="/companies/:id" element={<CompanyDetails />} />
+            <Route path="/jobs/:id" element={<JobDetails />} />
           </Routes>
         </main>
         <Footer />
       </div>
     </Router>
   );
-***REMOVED***
+}
 
 export default App;

@@ -1,6 +1,6 @@
 export default {
   plugins: {
-    tailwindcss: {***REMOVED***,
-    autoprefixer: {***REMOVED***,
-  ***REMOVED***,
-***REMOVED***;
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};

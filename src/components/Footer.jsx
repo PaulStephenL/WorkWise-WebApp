@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link ***REMOVED*** from 'react-router-dom';
-import { Briefcase, Mail, Phone, MapPin ***REMOVED*** from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Briefcase, Mail, Phone, MapPin } from 'lucide-react';
 
 function Footer() {
   return (
@@ -55,11 +55,11 @@ function Footer() {
         </div>
 
         <div className="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-300">
-          <p>&copy; {new Date().getFullYear()***REMOVED*** WorkWise. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} WorkWise. All rights reserved.</p>
         </div>
       </div>
     </footer>
   );
-***REMOVED***
+}
 
 export default Footer;
