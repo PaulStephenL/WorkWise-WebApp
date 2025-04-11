@@ -1,8 +1,11 @@
 import React, { useState, useEffect ***REMOVED*** from 'react';
-import { Routes, Route, Link, useNavigate ***REMOVED*** from 'react-router-dom';
+import { Routes, Route, Link, useNavigate, useParams ***REMOVED*** from 'react-router-dom';
 import { supabase, checkAndVerifyAdminRole ***REMOVED*** from '../../../lib/supabase';
 import { Briefcase, Building2, Users, LayoutDashboard, MapPin ***REMOVED*** from 'lucide-react';
 import JobDetails from '../Jobs/JobDetails';
+import ApplicationsList from '../Applications/ApplicationsList';
+import ApplicationDetails from '../Applications/ApplicationDetails';
+import { toast ***REMOVED*** from 'react-hot-toast';
 
 function AdminDashboard() {
   const navigate = useNavigate();
@@ -183,7 +186,7 @@ function AdminDashboard() {
               to="/admin/companies"
               className="px-6 py-4 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap border-b-2 border-transparent"
             >
-              <Building2 className="h-5 w-5 inline-block mr-2" />
+              <Building2 className="h-5 w-5 inline-block mr-2" /> 
               Companies
             </Link>
             <Link
@@ -202,7 +205,8 @@ function AdminDashboard() {
             <Route path="jobs" element={<AdminJobs />***REMOVED*** />
             <Route path="jobs/:id" element={<JobDetails />***REMOVED*** />
             <Route path="companies" element={<AdminCompanies />***REMOVED*** />
-            <Route path="applications" element={<AdminApplications />***REMOVED*** />
+            <Route path="applications" element={<ApplicationsList />***REMOVED*** />
+            <Route path="applications/:id" element={<ApplicationDetails />***REMOVED*** />
           </Routes>
         </div>
       </div>
@@ -398,107 +402,6 @@ function AdminCompanies() {
             </div>
           </div>
         ))***REMOVED***
-      </div>
-    </div>
-  );
-***REMOVED***
-
-function AdminApplications() {
-  const [applications, setApplications] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchApplications();
-  ***REMOVED***, []);
-
-  async function fetchApplications() {
-    try {
-      const { data, error ***REMOVED*** = await supabase
-        .from('applications')
-        .select(`
-          *,
-          job:jobs(
-            *,
-            company:companies(*)
-          )
-        `)
-        .order('created_at', { ascending: false ***REMOVED***);
-
-      if (error) throw error;
-      setApplications(data || []);
-    ***REMOVED*** catch (error) {
-      console.error('Error fetching applications:', error);
-    ***REMOVED*** finally {
-      setLoading(false);
-    ***REMOVED***
-  ***REMOVED***
-
-  if (loading) {
-    return <div>Loading...</div>;
-  ***REMOVED***
-
-  return (
-    <div>
-      <h2 className="text-2xl font-bold mb-6">Applications</h2>
-
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead>
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Job Title
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Company
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Applied Date
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {applications.map((application) => (
-              <tr key={application.id***REMOVED***>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">
-                    {application.job?.title***REMOVED***
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-500">
-                    {application.job?.company?.name***REMOVED***
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                    ${application.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : ''***REMOVED***
-                    ${application.status === 'accepted' ? 'bg-green-100 text-green-800' : ''***REMOVED***
-                    ${application.status === 'rejected' ? 'bg-red-100 text-red-800' : ''***REMOVED***
-                  `***REMOVED***>
-                    {application.status***REMOVED***
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {new Date(application.created_at).toLocaleDateString()***REMOVED***
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <button className="text-indigo-600 hover:text-indigo-900 mr-4">
-                    Update Status
-                  </button>
-                  <button className="text-red-600 hover:text-red-900">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))***REMOVED***
-          </tbody>
-        </table>
       </div>
     </div>
   );
