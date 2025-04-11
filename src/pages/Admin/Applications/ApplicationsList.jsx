@@ -1,4 +1,13 @@
 import React, { useState, useEffect ***REMOVED*** from 'react';
+import { Link ***REMOVED*** from 'react-router-dom';
+import { supabase ***REMOVED*** from '../../../lib/supabase';
+import { toast ***REMOVED*** from 'react-hot-toast';
+
+const ApplicationsList = () => {
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [updatingStatuses, setUpdatingStatuses] = useState({***REMOVED***);
+  const [error, setError] = useState(null);
 
 const ApplicationsList = () => {
   const [applications, setApplications] = useState([]);
